@@ -1,0 +1,3 @@
+(defmacro preserve (lst &rest body)
+  `(let ,(mapcar #'(lambda (s) `(,s ,s)) lst) 
+     ,@body))

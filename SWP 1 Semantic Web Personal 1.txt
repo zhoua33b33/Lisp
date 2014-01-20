@@ -1,0 +1,25 @@
+(1)camelize
+(defun camelize(str &optional (n nil))
+  (cond ((null n) (uppercase str))
+        ((setf (aref str 0) (char-upcase (aref str 0)))
+             (uppercase str))))
+
+(defun uppercase(str)
+  (do ((i 0 (1+ i)))
+      ((=  i (length str)) (remove #\- str))
+    (cond ((eql #\- (aref str i))
+           (setf (aref str (1+ i)) (char-upcase (aref str (1+ i)))))
+          (t str))))
+
+(2)hyphenate
+(defun hyphenate (str &optional (up :upper))
+  (cond ((eql up :lower) (nstring-downcase (interhyphenate str)))
+        (t (nstring-upcase (interhyphenate str)))))
+
+
+(defun interhyphenate(str)
+  (do ((i 0 (1+ i))(a (string #\-)))
+      ((= i (length str)) str)
+    (cond((and (> i 1)(upper-case-p (elt str i))(lower-case-p (elt str (1- i))))
+          (setf str (concatenate 'string (subseq str 0 i) a (subseq str i))))
+          (t str))))

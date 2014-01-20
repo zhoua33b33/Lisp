@@ -1,0 +1,3 @@
+(defun delete-car(lst)
+  (cond((or (null lst) (null (cdr lst))) nil)
+        (t (setf (car lst) (cadr lst) (cdr lst) (cddr lst))lst)))

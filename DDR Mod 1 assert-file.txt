@@ -1,0 +1,8 @@
+(defun assert-file (pathname)
+  (let ((count 0))
+    (with-open-file (str pathname :direction :input)
+      (do ((word (read-char str nil 'eof)
+                 (read-char str nil 'eof)))
+          ((eql word 'eof))
+        (when(eql #\( word) (incf count))))
+    count))

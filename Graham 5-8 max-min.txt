@@ -1,0 +1,6 @@
+(defun max-min(vec &key (start 0) (end (length vec)))
+  (cond ((null vec) (values nil nil))
+        ((eql start end) (values nil nil))
+        ((eql (1+ start) end)(values (svref vec start)(svref vec start)))
+        (t (multiple-value-bind(maxr minr)(max-min vec :start (incf start) :end (length vec))
+               (values (max (svref vec (1- start)) maxr) (min (svref vec (1- start)) minr))))))

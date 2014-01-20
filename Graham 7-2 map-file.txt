@@ -1,0 +1,14 @@
+(defun map-stream (func str)
+   (do ((expression (read str nil 'eofd)
+                    (read str nil 'eofd)))
+        ((eql expression 'eofd) nil)
+      (funcall func expression)))
+   
+   
+   
+(defun map-file(func pathname)
+  (with-open-file (str pathname :direction :input)
+    (do ((line (read-line str nil 'eofd)
+               (read-line str nil 'eofd)))
+        ((eql line 'eofd) nil)
+      (funcall func line))))

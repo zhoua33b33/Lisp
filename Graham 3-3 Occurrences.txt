@@ -1,0 +1,6 @@
+(defun occurrences (lst)
+  (let ((total nil))
+    (dolist (n lst)
+      (cond ((assoc n total)(incf (cdr (assoc n total))))
+            (t (push  (cons n 1) total ))))
+     (sort total #'> :key #'cdr)))

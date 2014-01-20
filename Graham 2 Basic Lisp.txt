@@ -1,0 +1,55 @@
+1.greater
+(defun greater(a b) 
+  (cond ((> a b) a)(t b)))
+
+2.has-list-p
+(defun has-list-p(list)
+  (cond ((null list) nil)
+        ((listp (car list)) t)
+        ((null (car list)) t)
+        ((has-list-p(cdr list)) t)
+        (t nil)))
+
+3.print-dots
+(1)iteration
+(defun print-dots(a)
+  (do ((b a (1- b)))
+      ((< b 1))
+    (format t "~A" ".")))
+
+
+(2)recursion
+(defun print-dots(a)
+  (if (< a 1) nil
+    (progn (format t "~A" ".")(print-dots(1- a)))))
+
+4.get-a-count
+(1)recursion
+(defun get-a-count(list)
+  (let ((total 0))
+  (cond ( (null list)  total  ) 
+        ( (eq (car list) 'a) (1+ (get-a-count(cdr list)) ) )
+        ( t  (get-a-count(cdr list) ) ))))
+
+(2)iteration
+(defun get-a-count(list)
+  (let ((total 0))
+    (dolist (n list total)
+      ( cond((eql 'a n) (incf total) )
+            (t total)))))
+
+
+5.summit
+(a)the remove function cannot change the list, the original list is untouched afterwards. So the function apply cannot make its work.
+(b)there is no expression for testing whether iteration should stop. So the function will not stop.
+
+the right version:
+
+(defun summit (lst)
+  (apply #'+(remove nil lst)))
+
+(b)
+(defun summit(list)
+  (cond ((null list) 0)
+        ((null (car list)) (summit (cdr list)))
+        (t (+ (car list) (summit (cdr list))))))

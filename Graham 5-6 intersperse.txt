@@ -1,0 +1,11 @@
+(1)iterative
+(defun intersperse(obj lst)
+    (cond ((null lst) nil)
+          (t (do((i lst (cdr i))(total nil (list* obj (car i) total)))
+                 ((null (cdr i)) (reverse (push (car i) total)))))))
+    
+(2)recursive
+(defun intersperse(obj lst)
+    (cond ((null lst) nil)
+          ((null (cdr lst))(list (car lst)))
+          (t (list* (car lst) obj (intersperse obj (cdr lst))))))

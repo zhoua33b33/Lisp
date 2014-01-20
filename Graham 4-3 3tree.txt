@@ -1,0 +1,22 @@
+(defstruct 3tree
+  data
+  left
+  middle
+  right)
+
+(defun 3tree-clone(tst)
+  (if (null tst) nil
+    (make-3tree 
+     :data (3tree-data tst)
+     :left (3tree-clone (3tree-left tst))
+     :middle (3tree-clone (3tree-middle tst))
+     :right (3tree-clone (3tree-right tst)))))
+
+(defun 3tree-member(obj tst)
+  (if (null tst) nil
+    (let ((cur (3tree-data tst)))
+      (if (eql obj cur)
+          tst
+        (or   (3tree-member obj (3tree-left tst))
+              (3tree-member obj (3tree-middle tst))
+              (3tree-member obj (3tree-right tst)))))))

@@ -1,0 +1,5 @@
+(defun print-2d-array(ary)
+  (let ((len (array-dimensions ary)))
+    (dotimes (n1 (car len))
+      (dotimes (n2 (cadr len))
+        (format t "~10,2F" (aref ary n1 n2))))))

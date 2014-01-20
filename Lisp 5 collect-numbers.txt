@@ -1,0 +1,4 @@
+(defun collect-numbers (lst)
+  (cond ((and (atom lst) (numberp lst)) (list lst))
+        ((atom lst) nil)
+        (t (mapcan #'collect-numbers lst))))

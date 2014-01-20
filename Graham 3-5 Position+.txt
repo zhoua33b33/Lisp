@@ -1,0 +1,18 @@
+(1)recursion
+(defun position+(lst)
+  (if (null lst) nil
+    (do ((lst1 (position+(cdr lst)) (cdr lst1)))
+        ((null lst1) lst)
+      (incf (car lst1)))))
+
+(2)iteration
+(defun position+(lst)
+    (do (( i 0 (1+ i)) (lst1 lst (cdr lst1))
+         (lst2 nil ( cons (+ i (car lst1)) lst2)))
+      ((= i (length lst)) (reverse lst2))))
+
+(3)mapcar
+(defun position+ (lst)
+     (mapcar #'+ lst 
+        (do((n 0 (1+ n))(total nil (cons n total)))
+           ((> n (length lst)) (reverse total)))))

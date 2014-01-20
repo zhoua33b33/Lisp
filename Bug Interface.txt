@@ -1,0 +1,52 @@
+(defpackage #:bug
+  (:use #:common-lisp #:net.aserve #:net.html.generator #:clp-exts))
+(in-package :bug)
+
+
+(defparameter *bugapp-home*
+  (let ((load-name (or *compile-file-truename* *load-truename*)))
+    (namestring
+     (make-pathname :host (pathname-host load-name)
+                    :device (pathname-device load-name)
+                    :directory (pathname-directory load-name)))))
+
+(webaction-project
+ "bug-report"
+ :destination *bugapp-home*
+ :index "inputbugs"
+ :map
+ '(
+   ("inputbugs" "submitinfr.clp")
+   ("submit-action" action-submit "results.clp" (:redirect t))
+   ))
+
+
+(defun action-submit (req resp)
+  (let ((id(symbol-name(gensym)))
+        (summary (request-query-value "summary" req))
+        (input (request-query-value "input" req))
+        (expected (request-query-value "expected" req))
+        (actual (request-query-value "actual" req))
+        (operating-system (request-query-value "operating-system" req))
+        (language (request-query-value "language" req)))
+    (cond ((valid-submit summary input expected actual operating-system language)
+           (inputdata *bugapp-home* id summary input expected actual operating-system language)"results.clp")
+          (t "inputbugs"))))
+
+
+(defun valid-submit (summary input expected actual operating-system language)
+  (or (not (= 0 (length summary))) (not (= 0 (length input)))
+      (not (= 0 (length expected))) (not (= 0 (length actual)))
+      (not (= 0 (length operating-system))) (not (= 0 (length language)))))
+
+
+
+(defun inputdata(file id summary input expected actual operating-system language)
+  (let*((bug-file(make-pathname 
+                  :name id
+                  :type "txt"))
+        (bug-dir-file(namestring
+                      (merge-pathnames bug-file file))))
+  (with-open-file (s bug-dir-file :direction :output 
+                     :if-exists :supersede)
+      (format s "~&~A ~A ~A ~A ~A ~A" summary input expected actual operating-system language))))

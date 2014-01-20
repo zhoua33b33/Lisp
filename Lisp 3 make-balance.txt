@@ -1,0 +1,4 @@
+(defun make-balance(initnum)
+  (lambda (&optional number)
+    (cond((null number) initnum)
+          (t (setf initialnum (+ initnum number))))))

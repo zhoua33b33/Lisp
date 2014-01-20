@@ -1,0 +1,13 @@
+(1)iterative
+(defun preceders(obj vec)
+  (let ((total nil))
+    (do ((i 0 (1+ i)))
+        ((= i (length vec))  total)
+      (when (and (eql obj (aref vec i)) (> i 0)) (setf total (adjoin (aref vec (1- i)) total))))))
+
+(2)recursive
+(defun preceders(obj vec &key (start 0))
+  (cond ((< (- (length vec) start) 2) nil)
+        ((eql (aref vec (1+ start)) obj)
+         (adjoin  (aref vec start) (preceders obj vec :start (1+ start))))
+        (t (preceders obj vec :start (1+ start)))))

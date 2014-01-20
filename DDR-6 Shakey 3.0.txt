@@ -1,0 +1,18 @@
+additional rules for shakey-3
+
+ (append nil ?x ?x)
+    (<- (append (cons ?x ?l1) ?l2 (cons ?x ?l3))
+        (append ?l1 ?l2 ?l3))
+
+    (different room1 room3)
+    (different room2 room3)
+    (different room3 hall)
+    
+    (plan-for (v3-state ?rbloc nil room1 ?unlockedlst)
+              nil)
+        (<- (plan-for (v3-state ?rbloc (cons ?boxloc1 ?boxlocs) room1 ?unlockedlst) ?total-actions)
+        (plan-for-v2(v2-state ?rbloc ?boxloc1 ?unlockedlst1) 
+                     (v2-state room1 room1 ?unlockedlst2)
+                     ?action)
+        (plan-for(v3-state room1 ?boxlocs room1 (cons room1 nil)) ?actions)
+        (append ?action ?actions ?total-actions))

@@ -1,0 +1,20 @@
+(1) my-copy-list
+(defun my-copy-list(lst)
+  (reduce #'cons lst :from-end t :initial-value nil))
+
+(2)my-reverse
+(defun my-reverse(lst)
+  (reduce #'(lambda(a b) (cons b a)) lst :initial-value nil))
+
+(3)hash-table->alist
+(defun hash-table->alist(ht)
+  (let ((lst nil))
+    (maphash #'(lambda (a b)
+                (push (cons a b) lst))
+            ht)lst))
+
+(4)alist->hash-table
+(defun alist->hash-table(lst)
+  (do ((i lst (cdr i)) (ht (make-hash-table)))
+      ((null i)ht)
+      (setf (gethash (car (car i)) ht) (cdr (car i)))))

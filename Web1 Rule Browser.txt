@@ -1,0 +1,28 @@
+(use-package :net.aserve)
+(use-package :net.html.generator)
+(use-package :lisp-critic)
+
+(publish :path "/critic-rule" :function 'browser-for-critic)
+
+(defun browser-for-critic (req ent)
+  (with-http-response (req ent)
+    (with-http-body (req ent)
+      (critic-rule "15" "blue" "white"))))
+
+(defun critic-rule ()
+  (html(:html
+        (:head (:title "Lisp Critic Rule Browser"))
+        (:body (:h2 "Lisp Critic Rule Browser")
+               ((:table border border-width
+                        bordercolor bordcolor
+                        bgcolor bg
+                        cellpadding 3)
+                (:tr ((:td bgcolor "blue") 
+                      ((:font :color "white" :size "+1")
+                       "Value"))
+                     ((:td bgcolor "blue") 
+                      ((:font :color "white" :size "+1")
+                       "Explanation")))
+                (dolist (i  (get-pattern-names))
+                  (html (:tr (:td (:princ i))
+                             (:td (:princ (get-response i)))))))))))

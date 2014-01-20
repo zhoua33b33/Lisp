@@ -1,0 +1,2 @@
+(defun horner(obj &rest args)
+  (reduce #'(lambda (x y) (+ (* obj x) y)) args))

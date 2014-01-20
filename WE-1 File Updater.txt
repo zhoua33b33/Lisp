@@ -1,0 +1,23 @@
+(defun update-file(file dir url)
+  (let* ((pathname (concatenate 'string dir file))
+         (filedate (file-write-date pathname))
+         (urldate (get-urldate url)))
+    (if (compare-date urldate filedate)
+        (progn (format t "Are you sure you want to update the file?")
+          (if (eql (read) "YES")
+              (supersede-file file url))))))
+
+(defun get-urldate(url)
+  (multiple-value-bind(lst1 lst2 lst3) (net.aserve.client:do-http-request url :method :head)
+    (dolist (i lst3)
+      (if(and(typep(car i) 'symbol)
+                (equal "LAST-MODIFIED" (symbol-name (car i))))
+        (return(cdr i))))))
+(defun compare-date(urldate filedate)
+  (if (> (date:parse-time urldate) filedate)
+      t
+    nil))
+(defun supersede-file(pathname url)
+  (with-open-file (f pathname :direction :output
+                     :if-exists :supersede)
+    (format f (net.aserve.client:do-http-request url))))

@@ -1,0 +1,7 @@
+(defun has-number-p(lst)
+  (cond ((null lst) nil)
+        ((not (listp lst)) (numberp lst) )
+        ((numberp (car lst)) t)
+        ((listp (car lst)) (has-number-p (car lst)))
+        ((has-number-p (cdr lst)) t)
+        (t nil)))

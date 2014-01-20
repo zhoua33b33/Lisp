@@ -1,0 +1,7 @@
+(defpackage "RING"
+  (:use "COMMON-LISP")
+  (:export "BUF" "BREF" "NEW-BUF" "BUF-INSERT" "BUF-POP" "BUF-NEXT" "BUF-RESET" "BUF-CLEAR" "BUF-FLUSH"))
+
+(defpackage "FILE"
+  (:use "COMMON-LISP" "RING")
+  (:export "FILE-SUBST" "STREAM-SUBST"))

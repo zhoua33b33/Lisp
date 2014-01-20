@@ -1,0 +1,49 @@
+(1)
+(defclass rectangle()
+  ((height :accessor rectangle-height
+           :initarg height
+           :initform 0)
+   (width :accessor rectangle-width
+          :initarg width
+          :initform 0)))
+
+(defclass circle()
+  ((radius :accessor circle-radius
+           :initarg radius
+           :initform 0)))
+
+(defmethod area ((rec rectangle))
+  (* (rectangle-height rec) (rectangle-width rec)))
+
+(defmethod area ((cir circle))
+  (* pi (expt (circle-radius cir) 2)))
+
+(2)
+(defclass rectangle()
+  ((height :accessor rectangle-height
+           :initarg height
+           :initform 0)
+   (width :accessor rectangle-width
+          :initarg width
+          :initform 0)
+   (count :accessor rectangle-count
+          :initarg count
+          :initform 0
+          :allocation :class)))
+
+(defclass circle()
+  ((radius :accessor circle-radius
+           :initarg radius
+           :initform 0)
+   (count :accessor circle-count
+          :initarg count
+          :initform 0
+          :allocation :class)))
+
+(defmethod area ((rec rectangle))
+  (* (rectangle-height rec) (rectangle-width rec))
+  (incf (rectange-count rec)))
+
+(defmethod area ((cir circle))
+  (* pi (expt (circle-radius cir) 2))
+  (incf (circle-count cir)))

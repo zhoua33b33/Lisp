@@ -1,0 +1,28 @@
+(1)iterative
+(defun diff-by-one-p(lst)
+  (do ((i lst (cdr i))(result t))
+      ((null (cdr i)) result)
+    (cond((eql (car i) (1+ (cadr i))) t)
+          ((eql (car i) (1- (cadr i))) t)
+           (t (return nil)))))
+(2)recursive
+(defun diff-by-one-p(lst)
+   (cond((null (cdr lst)) t)
+        ((and (or(eql (car lst) (1+ (cadr lst))) 
+                (eql (car lst) (1- (cadr lst))))
+              (diff-by-one-p (cdr lst))) t)
+         (t  nil)))
+(3)mapc
+(defun diff-by-one-p(lst)
+  (block nil
+    (cond((or (null lst) (atom lst) (null (cdr lst))) t)
+          ((mapc #'(lambda (x y)  (unless (= 1 (abs (- x y)))
+                                    (return-from  nil nil)))
+                                         (reverse (cdr (reverse lst))) (cdr lst)) t)
+        (t nil))))
+(4)every
+(defun diff-by-one-p(lst)
+  (cond ((and(null (cadr lst))(null (car lst))) t)
+        ((atom lst) t)
+        (t (every #'(lambda (n1 n2) (= 1 (abs (- n1 n2)))) 
+                  (reverse (cdr (reverse lst))) (cdr lst)))))

@@ -1,0 +1,11 @@
+(defparameter *all-different-kb*
+  '(
+    (-> (different ?y ?x)
+        (different ?x ?y))
+    (-> (all-different (cons ?x ?y))
+        (different ?x ?y))
+    (-> (all-different (cons ?y (cons ?x ?l1)))
+        (all-different ?l1)
+        (all-different (cons ?x ?l1))
+        (all-different (cons ?y ?l1))
+        (different ?x ?y))))

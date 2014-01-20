@@ -1,0 +1,4 @@
+(defun make-change(num &optional (lst '(25 10 5 1)))
+  (do ((i lst (cdr i))(total nil (cons (floor numrest (car i)) total))
+       (numrest num (mod num (car i))))
+      ((null i) (apply #' values (reverse total)))))
